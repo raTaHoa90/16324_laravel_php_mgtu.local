@@ -1,0 +1,23 @@
+.-flex-table {
+    display: flex;
+    min-height: 80vh;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: stretch;
+    align-content: space-around;
+
+    & div{
+        width: 300px;
+        padding: 10px;
+        border: 1px black solid;
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+
+
+        & img {
+            max-width: 270px;
+            max-height: 270px;
+        }
+    }
+}

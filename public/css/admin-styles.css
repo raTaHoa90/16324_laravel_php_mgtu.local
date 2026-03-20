@@ -1,0 +1,11 @@
+.r-t {
+    min-width: 500px;
+    border: solid 1px black;
+    border-collapse: collapse;
+    & td {
+        padding: 10px
+    }
+    & td:nth-child(1) {
+        text-align: right;
+    }
+}

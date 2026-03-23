@@ -10,25 +10,18 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <title>Document</title>
 
-    @yield('head')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script>
+        $(_=> $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } }) );
+    </script>
+
+    @stack('head')
 </head>
 <body>
     <header>
         <nav>
             <img src='/imgs/logo.png'>
-            <ul class="left-menu">
-                <li><a class="btn btn-light"><i class="fa fa-archive"></i> каталог</a></li>
-                <li>
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
-                    </div>
-                </li>
-            </ul>
-
-            <ul class="right-menu">
-                <li><a class="btn btn-light"><i class="fa fa-user"></i> войти</a></li>
-            </ul>
+            @yield('menu')
         </nav>
     </header>
     <main>

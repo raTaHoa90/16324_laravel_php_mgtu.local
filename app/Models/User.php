@@ -20,10 +20,23 @@ class User extends Authenticatable
     const
         ROLE_GUEST = 0,
         ROLE_ADMINISTRATOR = 1,
-        ROLE_MANAGER = 2,
+        ROLE_MANAGER = 2,   // менеджер по персоналу
+        ROLE_LOGIST = 3,    // Логист, управляет заказами
+        ROLE_CONTENT_M = 4, // Контент-менеджер, управляет информацией о товаре
+        ROLE_CARRIER = 5,   // Курьер
         ROLE_CLIENT = 10,
-        ROLE_BANNED = -1;
+        ROLE_BANNED = -1,
 
+        ROLES = [
+            self::ROLE_GUEST => 'гость',
+            self::ROLE_ADMINISTRATOR => 'Администратор',
+            self::ROLE_MANAGER => 'Менеджер по персоналу',
+            self::ROLE_LOGIST => 'Логист',
+            self::ROLE_CONTENT_M => 'Контент-менеджер',
+            self::ROLE_CARRIER => 'Курьер',
+            self::ROLE_CLIENT => 'Покупатель',
+            self::ROLE_BANNED => 'Заблокирован'
+        ];
 
     /**
      * Get the attributes that should be cast.
@@ -36,5 +49,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    function roleName(): string {
+        return static::ROLES[$this->group_role] ?? '???';
     }
 }

@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Http\Menu;
+
+class MenuItem {
+    const FIELDS = ['caption', 'icon', 'link', 'css', 'id'];
+    /*
+    public string $caption; // текст меню
+    public string $icon;    // иконка меню
+    public string $link;    // ссылка
+    public string $css;     // дополнительны CSS-классы
+    public string $id;      // ID элемента меню
+    */
+    protected array $_fields = [];
+
+    function __call($name, $arguments){
+        $name = strtolower($name);
+        if(substr($name, 0, 2) == 'is')
+            $testField = 2;
+        elseif(substr($name, 0, 3) == 'has')
+            $testField = 3;
+        else
+            $testField = 0;
+
+        // если мы хотим проверить добавлялось ли указанное поле
+        if($testField)
+            return array_key_exists(
+                substr($name, $testField),
+                $this->_fields
+            );
+
+        // если мы хотим получить или изменить значение поля
+        if(count($arguments)){
+            if(in_array($name, static::FIELDS))
+                $this->_fields[$name] = $arguments[0];
+            return $this;
+        } elseif(array_key_exists($name, $this->_fields))
+            return $this->_fields[$name];
+
+        throw "Метод $name не существует для ".(static::class);
+    }
+
+    function __get($name){
+        $name = strtolower($name);
+        if(in_array($name, static::FIELDS))
+            return $this->_fields[$name] ?? '';
+
+        throw "Поле $name не существует для ".(static::class);
+    }
+}

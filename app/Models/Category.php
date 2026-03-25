@@ -15,6 +15,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Category extends Model {
     use SoftDeletes;
 
+    static function getAllCategories(){
+        $result = [];
+        $categories = static::all();
+        foreach($categories as $category){
+            if(!isset($result[$category->parent_id]))
+                $result[$category->parent_id] = [];
+            $result[$category->parent_id][] = $category;
+        }
+        return $result;
+    }
+
     // получить категорию, в которой находится текущая категория, если она не самая верхняя
     function parent(): ?Category {
         if($this->parent_id)
@@ -25,5 +36,10 @@ class Category extends Model {
     // получить все категории которые находятся внутри текущей категории
     function children(string $fieldForSort = 'id') {
         return static::where('parent_id', $this->id)->orderBy($fieldForSort)->get();
+    }
+
+    function hasUsed(): bool {
+        return static::where('parent_id', $this->id)->count() ||
+            Product::where('category_id', $this->id)->count();
     }
 }

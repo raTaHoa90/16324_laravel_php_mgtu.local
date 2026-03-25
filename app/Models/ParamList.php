@@ -22,11 +22,22 @@ class ParamList extends Model {
         ];
 
     function values(){
-        return ParamListValue::Where('list_id', $this->id)->orderBy('id')->get();
+        return ParamListValue::where('list_id', $this->id)->orderBy('id')->get();
     }
 
-    function addValue(string $value){
-        ParamListValue::create([
+    function countValues(): int {
+        return ParamListValue::where('list_id', $this->id)->count();
+    }
+
+    function hasValueItem(string $value): bool{
+        return ParamListValue::where([
+            'list_id' => $this->id,
+            'value' => $value
+        ])->count() > 0;
+    }
+
+    function addValue(string $value): ParamListValue{
+        return ParamListValue::create([
             'list_id' => $this->id,
             'value' => $value
         ]);
@@ -37,5 +48,25 @@ class ParamList extends Model {
             'list_id' => $this->id,
             'value' => $value
         ])->delete();
+    }
+
+    function type(){
+        return static::TYPES[$this->type_values] ?? '???';
+    }
+
+    function hasUsed(): bool {
+        // SELECT count(*) FROM product_params WHERE list_id = ? AND type_param IN (?, ?)
+        $count = ProductParam::where('list_id', $this->id)
+            ->whereIn('type_param', ProductParam::TYPES_OF_LIST)
+            ->count();
+        return $count > 0;
+    }
+
+    function hasColorList(): bool {
+        return $this->type_values == static::TYPE_COLOR_LIST;
+    }
+
+    function hasImageList(): bool {
+        return $this->type_values == static::TYPE_IMAGE_LIST;
     }
 }

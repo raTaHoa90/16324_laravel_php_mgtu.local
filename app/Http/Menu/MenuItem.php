@@ -2,7 +2,9 @@
 
 namespace App\Http\Menu;
 
-class MenuItem {
+use Traversable;
+
+class MenuItem implements \IteratorAggregate {
     const FIELDS = ['caption', 'icon', 'link', 'css', 'id'];
     /*
     public string $caption; // текст меню
@@ -12,6 +14,25 @@ class MenuItem {
     public string $id;      // ID элемента меню
     */
     protected array $_fields = [];
+    protected ?BaseMenu $_subMenu = null;
+
+    function createSubMenu(): BaseMenu {
+        $this->_subMenu = new BaseMenu;
+        return $this->_subMenu;
+    }
+
+    function hasSubMenu(): bool {
+        return $this->_subMenu !== null;
+    }
+
+    function isActive(string $active): bool {
+        return $this->id == $active ||
+            ($this->_subMenu !== null && $this->_subMenu->isActiveByID($active));
+    }
+
+    function getIterator(): Traversable {
+        return $this->_subMenu->getIterator();
+    }
 
     function __call($name, $arguments){
         $name = strtolower($name);

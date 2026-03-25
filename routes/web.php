@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\ProductsTypesController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +18,33 @@ Route::group(['prefix' => '/admin'], function(){
         Route::get('/auth',   'authPage');
         Route::post('/login', 'login');
         Route::get('/logout', 'logout');
+    });
+
+    Route::controller(ProductsTypesController::class)->group(function(){
+        Route::get('/products/types', 'table');
+        Route::get('/products/types/{paramList}', 'listValues');
+
+        Route::post('/products/types/{paramList}/add', 'listValueAdd');
+        Route::post('/products/types/{paramList}/update', 'listValueUpdate');
+        Route::post('/products/types/{paramList}/delete', 'listValueDelete');
+
+        Route::post('/products/types/delete', 'delete');
+        Route::post('/products/types/create', 'create');
+        Route::post('/products/types/rename', 'rename');
+    });
+
+    Route::controller(ProductsController::class)->group(function(){
+        Route::get('/products/table', 'table');
+        Route::get('/products/create', 'createPage');
+
+    });
+
+    Route::controller(CategoriesController::class)->group(function(){
+        Route::get('/products/categories', 'table');
+
+        Route::post('/products/categories/create', 'create');
+        Route::post('/products/categories/update', 'update');
+        Route::post('/products/categories/delete', 'delete');
     });
 
     Route::controller(UsersController::class)->group(function(){

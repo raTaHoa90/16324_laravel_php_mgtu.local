@@ -6,11 +6,19 @@ use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ProductsTypesController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 //Route::get('/', function () { return view('welcome'); });
 
 Route::get('/', [MainController::class, 'main']);
+
+Route::controller(OrderController::class)->group(function(){
+    Route::get('/carts', 'cartPage');
+
+    Route::post('/add-product', 'addProductToCart');
+    Route::post('/order-add', 'addOrder');
+});
 
 Route::group(['prefix' => '/admin'], function(){
     Route::controller(AuthController::class)->group(function(){
@@ -37,6 +45,9 @@ Route::group(['prefix' => '/admin'], function(){
         Route::get('/products/table', 'table');
         Route::get('/products/create', 'createPage');
 
+        Route::get('/products/{product}', 'showPage')->where('product','[0-9]+');
+
+        Route::post('/products/save', 'saveProduct');
     });
 
     Route::controller(CategoriesController::class)->group(function(){

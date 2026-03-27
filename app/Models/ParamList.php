@@ -69,4 +69,28 @@ class ParamList extends Model {
     function hasImageList(): bool {
         return $this->type_values == static::TYPE_IMAGE_LIST;
     }
+
+    function getValueByID($id): string{
+        $param = ParamListValue::where([
+            'list_id' => $this->id,
+            'id' => $id
+        ])->first();
+
+        if(!$param)
+            return '';
+
+        switch($this->type_values){
+            case static::TYPE_TEXT_LIST:
+                return $param->value;
+
+            case static::TYPE_COLOR_LIST:
+                return '<div style="width:32px;height:32px;background:'.$param->value.';display:inline-block;"></div>';
+
+            case static::TYPE_IMAGE_LIST:
+                return '<img src="'.$param->value.'" style="width:32px;height:32px;display:inline-block;">';
+
+            default:
+                return '';
+        }
+    }
 }

@@ -39,4 +39,21 @@ class ProductParam extends Model {
 
         return ParamList::find($this->list_id);
     }
+
+    function getValue(){
+        if(!in_array($this->type_param, static::TYPES_OF_LIST))
+            return $this->value;
+
+        $list = $this->list();
+        if($this->type_param == static::TYPE_LIST_VALUES_USER_SELECT){
+            $result = ["<div class='-values'>"];
+            $ids = explode(',',$this->value);
+            foreach($ids as $id)
+                $result[] = $list->getValueByID($id);
+            $result[] = '</div>';
+            return implode(' ', $result);
+        }
+
+        return $list->getValueByID($this->value);
+    }
 }

@@ -13,6 +13,7 @@
             width: 20px;
             height: 20px;
             border: 1px black solid;
+            display: inline-block;
         }
     </style>
 @endpush

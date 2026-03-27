@@ -16,9 +16,6 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Имя</th>
-                    <th>Тип листа</th>
-                    <th>Размер списка</th>
                     <th>Название</th>
                     <th>Стоимость</th>
                     <th>Статус</th>
@@ -48,6 +45,9 @@
                         @foreach($product->params() as $param)
                         <b>{{$param->caption}}</b>: {!! $param->getValue() !!}<br>
                         @endforeach
+                    </td>
+                    <td>
+
                     </td>
                 </tr>
                 @endforeach

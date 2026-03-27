@@ -20,6 +20,11 @@
         .form-control{
             margin-bottom: 10px;
         }
+
+        .-m{
+            max-height: 200px;
+            max-width: 200px;
+        }
     </style>
     <script>
         paramTypesList = [ @foreach($paramTypesList as $paramTypeID)
@@ -37,12 +42,12 @@
         params = {
         @foreach ($product->params() as $paramName => $param)
             "{{$paramName}}": {
-                id: "{{$param->id}}",
+                id: {{$param->id}},
                 caption: "{{$paramName}}",
-                type: "{{$param->type_param}}",
+                type: {{$param->type_param}},
                 value: "{{$param->value}}",
-                listId: "{{$param->list_id}}"
-            }
+                listid: {{$param->list_id}}
+            },
         @endforeach
         }
 
@@ -50,7 +55,15 @@
 
         $(function(){
             drawParams();
+            $('#category_id').val({{$product->category_id}});
         });
+
+        @if($errors->any())
+        @foreach ($errors->all() as $error)
+            console.log('{{ $error }}');
+        @endforeach
+        @endif
+
     </script>
 @endpush
 
@@ -100,11 +113,11 @@
     <input form="saveProduct" class="btn btn-success" type="submit" value="Сохранить">
     <br><br>
 
-    <form action="?" method="POST" name="saveProduct" id="saveProduct" enctype="multipart/form-data">
+    <form action="/admin/products/save" method="POST" name="saveProduct" id="saveProduct" enctype="multipart/form-data">
 
         <section style="float:left">
                 @csrf
-                <input type="hidden" name="id" value="{{$product->id}}">
+                <input type="hidden" name="id" value="{{$product->id ?? 0}}">
 
                 <table class='r-t'>
                 <tr>
@@ -117,7 +130,7 @@
                 </tr>
                 <tr>
                     <td>Цена:</td>
-                    <td><input class="form-control" type="number" name="price" id="price" value="{{old('price', $product->price)}}"></td>
+                    <td><input class="form-control" type="number" name="price" id="price" step="1.00" value="{{old('price', $product->price ?: 0)}}"></td>
                 </tr>
                 <tr>
                     <td>В какой категории расположен</td>
@@ -151,7 +164,13 @@
             <table class='r-t'>
                 <tr>
                     <td>Картинки товара:</td>
-                    <td><input class="form-control" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.svg" class="form-control" name="caption" id="caption" value="{{old('caption', $product->caption)}}"></td>
+                    <td>
+                        @foreach ($product->images() as $image)
+                            <img class="-m" src="/imgs/{{$image}}">
+                        @endforeach
+
+                        <input class="form-control" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.svg" class="form-control" name="loadImage[]" id="loadImage">
+                    </td>
                 </tr>
                 <tr>
                     <td>Характеристики товара:</td>
@@ -162,7 +181,7 @@
                                 <th>Характеристика</th>
                                 <th>Тип</th>
                                 <th>Значение</th>
-                                <th>список</th>
+                                <th>Список</th>
                                 <th></th>
                             </tr>
                             <tbody id="params">

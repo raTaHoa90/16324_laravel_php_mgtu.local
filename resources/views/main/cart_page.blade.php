@@ -37,7 +37,7 @@
             <th>Кол-во</th>
             <th>Стоимость</th>
         </tr>
-        @foreach($ordersProduct as $id => $orderProd)
+        @forelse($ordersProduct as $id => $orderProd)
         <tr id="prod_{{$id}}">
             <td>{{$orderProd['product']->caption ?? ''}}</td>
             <td>@php($img = $orderProd['product']->firstImage())
@@ -61,13 +61,15 @@
                 {{$orderProd['price']}}
             </span> руб.</td>
         </tr>
-        @endforeach
+        @empty
+        <tr><td colspan="5">Карзина пуста</td></tr>
+        @endforelse
         <tr>
             <td colspan="3"></td>
             <td>Итого:</td>
             <td style="text-align: right">
-                <input type="hidden"  id="price_total_input_{{$id}}" name="totalSum" value="{{$totalSum}}">
-                <span id="price_total_{{$id}}">{{$totalSum}}</span> руб.</td>
+                <input type="hidden"  id="price_total_input" name="totalSum" value="{{$totalSum}}">
+                <span id="price_total">{{$totalSum}}</span> руб.</td>
         </tr>
     </table>
 

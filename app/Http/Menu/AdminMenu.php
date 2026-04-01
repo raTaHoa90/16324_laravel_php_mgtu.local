@@ -19,7 +19,7 @@ class AdminMenu extends BaseMenu {
         $subMenuProject->AddMenu('Категории')->link('/admin/products/categories')->id('a_categories');
         $subMenuProject->AddMenu('Списки товаров')->link('/admin/products/table')->id('a_products');
 
-        $this->AddMenu('Заказы')->icon('fa-shopping-cart')->link('admin/orders')->id('orders');
+        $this->AddMenu('Заказы')->icon('fa-shopping-cart')->link('/admin/orders')->id('orders');
 
         $this->AddMenu('Выход')->icon('fa-sign-out')->link('/admin/logout');
     }

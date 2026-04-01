@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Policies\OrderPolicy;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Model;
 
+#[UsePolicy(OrderPolicy::class)]
 #[Fillable([
     'status',         // статус заказа
     'count_products', // общее кол-во товара

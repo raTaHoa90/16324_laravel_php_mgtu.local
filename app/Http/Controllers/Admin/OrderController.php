@@ -15,6 +15,13 @@ class OrderController extends BaseController {
         ]);
     }
 
+    function order(OrderRecord $orderRecord){
+        $this->menu->active = 'orders';
+        return view('admin.orders.order',[
+            'order' => $orderRecord
+        ]);
+    }
+
     function setStatus(OrderRecord $orderRecord){
         $user = Auth::user();
         if($user === null)

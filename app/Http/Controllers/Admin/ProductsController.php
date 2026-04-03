@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductParam;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductsController extends BaseController {
 
@@ -64,6 +65,7 @@ class ProductsController extends BaseController {
         // заполняем общие поля
         $data = [
             'caption'     => request('caption'),    // название товара
+            'saf'         => Str::slug(request('caption')),
             'description' => request('desc', ''),   // описание товара
             'price'       => request('price'),      // стоимость товара
             'status'      => request('status'),     // статус товара (0 - скрыто, 1 - опубликовано)

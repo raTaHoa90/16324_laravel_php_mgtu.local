@@ -124,6 +124,12 @@
                     <td>Название товара:</td>
                     <td><input class="form-control" name="caption" id="caption" value="{{old('caption', $product->caption)}}"></td>
                 </tr>
+                @if(!empty($product->saf))
+                <tr>
+                    <td>Системное имя:</td>
+                    <td><a href="/products/{{$product->saf}}" target="_blank">{{$product->saf}}</a></td>
+                </tr>
+                @endif
                 <tr>
                     <td>Описание:</td>
                     <td><textarea name="desc" id="desc" class="form-control" rows=20 cols=50>{{old('desc', $product->description)}}</textarea></td>

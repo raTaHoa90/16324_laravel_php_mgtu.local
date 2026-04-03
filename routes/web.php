@@ -15,7 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/', function () { return view('welcome'); });
 
-Route::get('/', [MainController::class, 'main']);
+Route::controller(MainController::class)->group(function(){
+    Route::get('/', 'main');
+    Route::get('/products/{product:saf}', 'product');
+    Route::get('/categories/{category:saf}', 'category');
+
+});
 
 Route::controller(OrderController::class)->group(function(){
     Route::get('/carts', 'cartPage');
@@ -23,6 +28,7 @@ Route::controller(OrderController::class)->group(function(){
     Route::post('/add-product', 'addProductToCart');
     Route::post('/order-add', 'addOrder');
 });
+
 
 Route::controller(AuthController::class)->prefix('/admin')->group(function(){
     Route::get('/',       'main');
@@ -72,7 +78,8 @@ Route::middleware(['AdminPanel'])->prefix('/admin')->group(function(){
     Route::controller(AdminOrderController::class)->group(function(){
         Route::get('/orders', 'table');
 
-        Route::get('/orders/{orderRecord}/set-status', 'setStatus');
+        Route::get('/orders/{orderRecord}/set-status', 'setStatus')->where('orderRecord','[0-9]+');
+        Route::get('/orders/{orderRecord}', 'order')->where('orderRecord', '[0-9]+');
     });
 });
 

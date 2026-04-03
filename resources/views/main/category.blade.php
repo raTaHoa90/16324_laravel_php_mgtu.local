@@ -2,7 +2,7 @@
 
 @section('content')
     <section>
-        <h2>Добро пожаловать на сайт</h2>
+        <h2>Категория: {{$category->caption}}</h2>
         <div class="-flex-table">
         @foreach ($products as $product)
             <div onlick="location='/product/{{$product->id}}'">

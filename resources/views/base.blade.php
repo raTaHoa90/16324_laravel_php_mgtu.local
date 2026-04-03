@@ -20,7 +20,7 @@
 <body>
     <header>
         <nav>
-            <img src='/imgs/logo.png'>
+            <a href="/"><img src='/imgs/logo.png'></a>
             @yield('menu')
         </nav>
     </header>

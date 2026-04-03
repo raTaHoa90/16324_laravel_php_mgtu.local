@@ -1,7 +1,7 @@
 @extends('admin.base_template')
 
 @section('content')
-    <a href="/admin/users" class="btn btn-light"><i class="fa fa-arrow-left"></i> Назад к таблицам пользователей</a><br><br>
+    <a href="/admin/users" class="btn btn-light"><i class="fa fa-arrow-left"></i> Назад к таблице пользователей</a><br><br>
 
     <table class='r-t'>
         <tr>

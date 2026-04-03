@@ -25,8 +25,12 @@
                     <td><a href="/admin/orders/{{$order->id}}">{{$order->id}}</a></td>
                     <td>{{$order->email}}</td>
                     <td style="text-align: right">{{$order->count_products}}</td>
+                    <td>{{$order->getStatus()}}</td>
+                    <td style="text-align: right">{{$order->sum_price}}</td>
+                    <td>{{$order->created_at->format('d.m.Y')}}</td>
+                    <td>{{$order->address}}</td>
+                    <td>{!! strtr($order->other, ["\n"=>'<br>']) !!}</td>
                     <td>
-                        {{$order->getStatus()}}
                         @can('status-set-work', $order)
                             <a class="btn btn-primary" href="/admin/orders/{{$order->id}}/set-status?status=work">Взять в работу</a>
                         @elsecan('status-set-travel', $order)
@@ -37,12 +41,6 @@
                         @can('status-set-cancel', $order)
                             <a class="btn btn-danger" href="/admin/orders/{{$order->id}}/set-status?status=cancel">Отменен</a>
                         @endcan
-                    </td>
-                    <td style="text-align: right">{{$order->sum_price}}</td>
-                    <td>{{$order->created_at->format('d.m.Y / H')}}</td>
-                    <td>{{$order->address}}</td>
-                    <td>{!! strtr($order->other, ["\n"=>'<br>']) !!}</td>
-                    <td>
                     </td>
                 </tr>
                 @endforeach

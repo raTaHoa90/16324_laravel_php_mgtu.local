@@ -9,9 +9,10 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
-class OrderController extends Controller {
+class OrderController extends BaseController {
 
     function cartPage(){
+        $this->rightMenu->active = 'carts';
         $ordersProduct = Session::get('products', []);
 
         $sum = 0;

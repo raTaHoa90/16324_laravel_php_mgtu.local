@@ -28,7 +28,7 @@ class Category extends Model {
 
     // получить категорию, в которой находится текущая категория, если она не самая верхняя
     function parent(): ?Category {
-        if($this->parent_id)
+        if(!$this->parent_id)
             return null;
         return static::find($this->parent_id);
     }

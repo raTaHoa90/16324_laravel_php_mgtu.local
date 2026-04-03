@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 #[Fillable([
     'caption',    // название товара
+    'saf',        // для ЧПА ссылки
     'description',// описание товара
     'price',      // стоимость товара
     'status',     // статус товара (0 - скрыто, 1 - опубликовано)

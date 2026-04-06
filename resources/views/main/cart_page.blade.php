@@ -22,7 +22,7 @@
         </tr>
         @forelse($ordersProduct as $id => $orderProd)
         <tr id="prod_{{$id}}">
-            <td>{{$orderProd['product']->caption ?? ''}}</td>
+            <td><a href="/products/{{$orderProd['product']->saf}}">{{$orderProd['product']->caption ?? ''}}</a></td>
             <td>@php($img = $orderProd['product']->firstImage())
                 @if($img != '')<img class="-m" src="/imgs/{{$img}}">@endif
             </td>

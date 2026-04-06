@@ -55,7 +55,7 @@ header {
                 margin-right: 10px;
                 position: relative;
 
-                &:hover .vertical-menu{
+                &:hover > .vertical-menu{
                     display: inline-block;
                 }
             }

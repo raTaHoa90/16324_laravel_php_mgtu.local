@@ -3,13 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Policies\UserPolicy;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+#[UsePolicy(UserPolicy::class)]
 #[Fillable(['name', 'email', 'password', 'group_role'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
@@ -53,5 +57,17 @@ class User extends Authenticatable
 
     function roleName(): string {
         return static::ROLES[$this->group_role] ?? '???';
+    }
+
+    function NotUseAdminPanel(): bool {
+        return in_array($this->group_role, [static::ROLE_GUEST, static::ROLE_CLIENT]);
+    }
+
+    function isAdmin(): bool {
+        return $this->group_role == static::ROLE_ADMINISTRATOR;
+    }
+
+    function isManager(): bool {
+        return $this->group_role == static::ROLE_MANAGER;
     }
 }

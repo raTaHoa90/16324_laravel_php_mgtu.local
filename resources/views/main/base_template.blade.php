@@ -1,14 +1,10 @@
 @extends('base')
 
 @push('head')
+    <script src="/js/main.js"></script>
     <link rel="stylesheet" href="/css/main.css">
     <script>
-        function addProduct(idProduct){
-            $.post('/add-product', {idProduct},function(req){
-                if(req.ok)
-                    $('#countProduct').text('('+req.count+')');
-            }, 'json');
-        }
+        $(_=> setProduct({{ $countCartProducts }}));
     </script>
 @endpush
 

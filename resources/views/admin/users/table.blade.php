@@ -58,7 +58,20 @@
                     <td>{{ $userData->id }}</td>
                     <td>{{ $userData->name }}</td>
                     <td>{{ $userData->email }}</td>
-                    <td>{{ $userData->roleName() }}</td>
+                    <td>@if($userData->NotUseAdminPanel() || $userData->id == $user->id ||
+                        ($userData->isAdmin() && !$user->isAdmin()) ||
+                        ($userData->isManager() && !$user->isAdmin())
+                    ) {{ $userData->roleName() }}
+                    @else
+                        <select onchange="setRoleUser({{ $userData->id }}, this.value)" onclick="return cancel(event);" class="form-control">
+                        @foreach ($roles as $roleID => $caption)
+                            <option value="{{$roleID}}"
+                                @if($userData->group_role == $roleID) selected @endif
+                            >{{$caption}}</option>
+                        @endforeach
+                        </select>
+                    @endif
+                    </td>
                     <td></td>
                 </tr>
             @endforeach
